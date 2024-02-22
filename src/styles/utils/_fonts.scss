@@ -1,32 +1,7 @@
 @font-face {
-  font-family: Formula-Condensed;
-  src: url("/public/font/FormulaCondensed/FormulaCondensed-Light.otf")
-    format("opentype");
-  font-weight: lighter;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: Formula-Condensed;
-  src: url("/public/font/FormulaCondensed/FormulaCondensed-Bold.otf")
-    format("opentype");
-  font-weight: bold;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: Roboto;
-  src: url("/public/font/Roboto/Roboto-Medium.ttf")
+  font-family: Inter;
+  src: url("/public/font/Inter/Inter-VariableFont_slnt\,wght.ttf")
     format("opentype");
   font-weight: normal;
   font-style: normal;
 }
-
-@font-face {
-  font-family: Roboto;
-  src: url("/public/font/Roboto/Roboto-Black.ttf")
-    format("opentype");
-  font-weight: bold;
-  font-style: normal;
-}
-

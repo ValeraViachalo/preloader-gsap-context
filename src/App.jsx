@@ -1,62 +1,35 @@
-import React from "react";
-import { useLocation, useRoutes } from "react-router-dom";
+import React, { useLayoutEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { AnimatePresence } from "framer-motion";
 
-import { ScrollProvider } from "./helpers/scrollProvider";
-import { Header } from "@C/Header/Header"
 import Home from "./pages/Home/Home";
-import ErrorPage from "./pages/ErrorPage/ErrorPage";
-import Blog from "./pages/Blog/Blog";
-import BlogDetails from "./pages/BlogDetails/BlogDetails";
+import gsap from "gsap";
+import { Preloader } from "./components/Preloader/Preloader";
 
 const queryC = new QueryClient();
 
 function App() {
+  const [loaderFinished, setLoaderFinished] = useState(false);
+  const [timeline, setTimeline] = useState(null);
 
-  const element = useRoutes([
-    {
-      path: "/",
-      children: [
-        {
-          index: true,
-          element: <Home />,
-        },
-        {
-          path: 'blog',
-          element: <Blog />,
-        },
-        {
-          path: 'blogs',
-          children: [
-            {
-              path: ":blogId?",
-              element: <BlogDetails />,
-            },
-          ],
-        }
-      ],
-    },
-    {
-      path: "*",
-      element: <ErrorPage />,
-    },
-  ]);
+  useLayoutEffect(() => {
+    const context = gsap.context(() => {
+      const tl = gsap.timeline({
+        onComplete: () => setLoaderFinished(true),
+      });
+      setTimeline(tl);
+    });
 
-  const location = useLocation();
+    return () => context.revert();
+  }, [])
 
   return (
-    <QueryClientProvider client={queryC}>
       <main>
-        <ScrollProvider>
-          <Header />
-          
-          <AnimatePresence mode="wait" initial={false}>
-              {React.cloneElement(element, { key: location.pathname })}
-          </AnimatePresence>
-        </ScrollProvider>
+        {
+          loaderFinished 
+          ? <Home /> 
+          : <Preloader timeline={timeline} />
+        }
       </main>
-    </QueryClientProvider>
   )
 }
 
